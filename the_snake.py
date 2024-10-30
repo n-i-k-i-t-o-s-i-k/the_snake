@@ -102,3 +102,27 @@ class Snake(GameObject):
         """Обновляет позицию змейки."""
         head_x, head_y = self.positions[0]
 
+        if self.direction == 'UP':
+            head_y -= GRID_SIZE
+        elif self.direction == 'DOWN':
+            head_y += GRID_SIZE
+        elif self.direction == 'LEFT':
+            head_x -= GRID_SIZE
+        elif self.direction == 'RIGHT':
+            head_x += GRID_SIZE
+
+        # Проверка на прохождение сквозь стены
+        if head_x < 0:
+            head_x = SCREEN_WIDTH - GRID_SIZE
+        elif head_x >= SCREEN_WIDTH:
+            head_x = 0
+        if head_y < 0:
+            head_y = SCREEN_HEIGHT - GRID_SIZE
+        elif head_y >= SCREEN_HEIGHT:
+            head_y = 0
+
+        self.positions = [(head_x, head_y)] + self.positions[:self.length - 1]
+        if len(self.positions) > self.length:
+            self.last = self.positions[-1]
+        else:
+            self.last = None
